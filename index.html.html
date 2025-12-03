@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>Aurum.time - Relojes de Lujo</title>
+    <meta name="description" content="Catalogo exclusivo de relojes de lujo. Rolex, Patek Philippe, Omega. Envios a todo el pais.">
+    <meta name="keywords" content="relojes, rolex, patek philippe, omega, relojes de lujo, aurum time">
+    
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Aurum.time - Relojes de Lujo">
+    <meta property="og:description" content="Catalogo exclusivo de relojes premium. Envios a todo el pais.">
+    <meta property="og:image" content="https://i.imgur.com/KDyEewN.jpeg">
+    
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%E2%8C%9A%3C/text%3E%3C/svg%3E">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); color: white; font-family: 'Montserrat', Arial, sans-serif; overflow-x: hidden; }
+        header { text-align: center; padding: 50px 20px 30px; position: relative; }
+        header::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%); border-radius: 50%; z-index: 0; }
+        header h1 { font-size: 52px; letter-spacing: 4px; background: linear-gradient(135deg, #ffd700, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 900; position: relative; z-index: 1; }
+        header p { color: #999; font-size: 16px; letter-spacing: 3px; margin-top: 10px; text-transform: uppercase; font-weight: 300; }
+        .beneficios { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; padding: 30px 20px; background: rgba(26, 26, 26, 0.5); border-top: 1px solid #222; border-bottom: 1px solid #222; }
+        .beneficio-item { font-size: 14px; color: #d4af37; font-weight: 600; letter-spacing: 1px; }
+        .categorias, .modelos { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; padding: 40px 20px; max-width: 1400px; margin: 0 auto; }
+        .card { background: linear-gradient(145deg, #151515, #0d0d0d); border: 1px solid #2a2a2a; padding: 25px; width: 280px; border-radius: 16px; text-align: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); position: relative; overflow: hidden; }
+        .card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent); transition: 0.5s; }
+        .card:hover::before { left: 100%; }
+        .card:hover { transform: translateY(-8px); border-color: #d4af37; box-shadow: 0 8px 35px rgba(212, 175, 55, 0.3); }
+        .card img { width: 100%; height: 280px; object-fit: cover; border-radius: 12px; border: 1px solid #2a2a2a; }
+        .card h3 { margin-top: 18px; color: #d4af37; font-size: 24px; font-weight: 700; letter-spacing: 1px; }
+        .precio { font-size: 20px; margin-top: 8px; color: #fff; font-weight: 600; }
+        .stock-badge { display: inline-block; background: rgba(37, 211, 102, 0.2); color: #25d366; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; margin-top: 8px; border: 1px solid rgba(37, 211, 102, 0.3); }
+        .btn-wsp { display: inline-block; margin-top: 15px; background: linear-gradient(135deg, #25d366, #128c7e); padding: 12px 24px; border-radius: 10px; text-decoration: none; color: white; font-weight: 700; font-size: 14px; letter-spacing: 0.5px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        .btn-wsp:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5); }
+        .whatsapp-float { position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: linear-gradient(135deg, #25d366, #128c7e); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 25px rgba(37, 211, 102, 0.5); z-index: 1000; cursor: pointer; transition: all 0.3s; text-decoration: none; animation: pulse 2s infinite; }
+        .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 8px 35px rgba(37, 211, 102, 0.7); }
+        .whatsapp-float svg { width: 35px; height: 35px; fill: white; }
+        @keyframes pulse { 0%, 100% { box-shadow: 0 5px 25px rgba(37, 211, 102, 0.5); } 50% { box-shadow: 0 5px 35px rgba(37, 211, 102, 0.8); } }
+        footer { text-align: center; padding: 40px 20px; margin-top: 60px; background: #0a0a0a; color: #999; border-top: 1px solid #222; }
+        footer .logo-footer { font-size: 28px; background: linear-gradient(135deg, #ffd700, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 900; margin-bottom: 15px; }
+        footer a { color: #d4af37; text-decoration: none; transition: color 0.3s; }
+        footer a:hover { color: #ffd700; }
+        footer p { margin: 8px 0; font-size: 14px; }
+        #modelosSection { display: none; }
+        .volver { display: block; margin: 20px auto; width: fit-content; padding: 12px 28px; border: 2px solid #d4af37; color: #d4af37; text-decoration: none; border-radius: 10px; font-weight: 600; transition: all 0.3s; cursor: pointer; }
+        .volver:hover { background: #d4af37; color: black; transform: translateX(-5px); }
+        .section-title { text-align: center; font-size: 36px; color: #fff; margin-bottom: 30px; font-weight: 700; }
+        @media (max-width: 768px) { header h1 { font-size: 38px; } .card { width: 100%; max-width: 340px; } .categorias, .modelos { gap: 20px; padding: 30px 15px; } .beneficios { gap: 20px; font-size: 12px; } .section-title { font-size: 28px; } .whatsapp-float { width: 55px; height: 55px; bottom: 20px; right: 20px; } .whatsapp-float svg { width: 28px; height: 28px; } }
+        @media (max-width: 480px) { header h1 { font-size: 32px; } header p { font-size: 13px; } .card { padding: 20px; } .card h3 { font-size: 20px; } .precio { font-size: 18px; } .beneficios { flex-direction: column; gap: 15px; } }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Aurum.time</h1>
+    <p>Catalogo Exclusivo de Relojes Premium</p>
+</header>
+
+<div class="beneficios">
+    <div class="beneficio-item">✓ Envios a Todo el Pais</div>
+    <div class="beneficio-item">✓ Garantia de Calidad</div>
+    <div class="beneficio-item">✓ Stock Disponible</div>
+    <div class="beneficio-item">✓ Atencion Personalizada</div>
+</div>
+
+<section id="categoriasSection">
+    <h2 class="section-title">Nuestras Marcas</h2>
+    <div class="categorias">
+        <div class="card" onclick="mostrarModelos('rolex')">
+            <img src="https://i.imgur.com/KDyEewN.jpeg" alt="Relojes Rolex">
+            <h3>Rolex</h3>
+            <p style="color: #999; font-size: 14px; margin-top: 8px;">4 modelos disponibles</p>
+        </div>
+        <div class="card" onclick="mostrarModelos('patek')">
+            <img src="https://i.imgur.com/bqnTTDS.jpeg" alt="Relojes Patek Philippe">
+            <h3>Patek Philippe</h3>
+            <p style="color: #999; font-size: 14px; margin-top: 8px;">2 modelos disponibles</p>
+        </div>
+        <div class="card" onclick="mostrarModelos('omega')">
+            <img src="https://i.imgur.com/cFB2wMI.jpeg" alt="Relojes Omega">
+            <h3>Omega</h3>
+            <p style="color: #999; font-size: 14px; margin-top: 8px;">1 modelo disponible</p>
+        </div>
+    </div>
+</section>
+
+<section id="modelosSection">
+    <a class="volver" onclick="volverCategorias()">← Volver a Marcas</a>
+    <h2 class="section-title" id="marcaTitle"></h2>
+    <div class="modelos" id="modelosContainer"></div>
+</section>
+
+<footer>
+    <div class="logo-footer">Aurum.time</div>
+    <p>© 2025 Aurum.time | Todos los derechos reservados</p>
+    <p>WhatsApp: <a href="https://wa.me/543816229294" target="_blank">+54 381 622-9294</a></p>
+    <p>Siguenos en <a href="https://www.instagram.com/santyferreyra____" target="_blank">Instagram</a></p>
+    <p style="font-size: 12px; color: #666; margin-top: 15px;">San Miguel de Tucuman, Argentina</p>
+</footer>
+
+<a href="https://wa.me/543816229294?text=Hola!%20Quiero%20consultar%20sobre%20los%20relojes%20de%20Aurum.time" class="whatsapp-float" target="_blank"><svg viewBox="0 0 32 32"><path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 7.933-2.127c2.42 1.37 5.173 2.127 8.067 2.127 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.467c-2.482 0-4.908-0.646-7.07-1.87l-0.507-0.292-4.713 1.262 1.262-4.669-0.292-0.508c-1.207-2.100-1.847-4.507-1.847-6.967 0-7.384 6.083-13.467 13.467-13.467s13.467 6.083 13.467 13.467c0 7.384-6.083 13.467-13.467 13.467zM21.641 18.842c-0.228-0.114-1.346-0.664-1.555-0.74-0.209-0.076-0.361-0.114-0.513 0.114s-0.589 0.74-0.722 0.893c-0.133 0.152-0.266 0.171-0.494 0.057s-0.963-0.355-1.833-1.131c-0.679-0.604-1.137-1.350-1.270-1.578s-0.014-0.351 0.100-0.464c0.102-0.102 0.228-0.266 0.342-0.399s0.152-0.228 0.228-0.380c0.076-0.152 0.038-0.285-0.019-0.399s-0.513-1.235-0.703-1.691c-0.185-0.443-0.373-0.383-0.513-0.390-0.133-0.007-0.285-0.007-0.437-0.007s-0.399 0.057-0.608 0.285c-0.209 0.228-0.797 0.778-0.797 1.898s0.816 2.201 0.930 2.353c0.114 0.152 1.606 2.547 3.981 3.505 1.925 0.778 2.354 0.622 2.780 0.584 0.627-0.057 1.346-0.55 1.536-1.080s0.190-0.987 0.133-1.080c-0.057-0.095-0.209-0.152-0.437-0.266z"/></svg></a>
+
+<script>
+var relojesDB = {
+    rolex: [
+        { nombre: 'Submariner', img: 'https://i.imgur.com/ixnEiF9.jpeg', precio: '37.000' },
+        { nombre: 'Date-Just', img: 'https://i.imgur.com/8BJzhzy.jpeg', precio: '35.000' },
+        { nombre: 'Milgauss', img: 'https://i.imgur.com/xLgPEx8.jpeg', precio: '33.000' },
+        { nombre: 'Royal Cushion', img: 'https://i.imgur.com/dCpxnhc.jpeg', precio: '35.000' }
+    ],
+    patek: [
+        { nombre: 'Nautilus', img: 'https://i.imgur.com/G1CS187.jpeg', precio: '37.000' },
+        { nombre: 'Aquanaut', img: 'https://i.imgur.com/2v4GhID.jpeg', precio: '37.000' }
+    ],
+    omega: [
+        { nombre: 'De-Ville', img: 'https://i.imgur.com/qQjeSlD.jpeg', precio: '30.000' }
+    ]
+};
+
+var marcasNombres = { rolex: 'ROLEX', patek: 'PATEK PHILIPPE', omega: 'OMEGA' };
+
+function mostrarModelos(marca) {
+    document.getElementById('categoriasSection').style.display = 'none';
+    document.getElementById('modelosSection').style.display = 'block';
+    document.getElementById('marcaTitle').textContent = marcasNombres[marca];
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    
+    var contenedor = document.getElementById('modelosContainer');
+    contenedor.innerHTML = '';
+    var relojes = relojesDB[marca] || [];
+    
+    for (var i = 0; i < relojes.length; i++) {
+        var r = relojes[i];
+        var mensaje = 'Hola! Estoy interesado en el ' + r.nombre + ' de ' + marcasNombres[marca] + ' ($' + r.precio + '). Esta disponible?';
+        var url = 'https://wa.me/543816229294?text=' + encodeURIComponent(mensaje);
+        
+        var card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = '<img src="' + r.img + '" alt="' + r.nombre + '"><h3>' + r.nombre + '</h3><p class="precio">$' + r.precio + '</p><span class="stock-badge">✓ Stock Disponible</span><a class="btn-wsp" href="' + url + '" target="_blank">Consultar por WhatsApp</a>';
+        contenedor.appendChild(card);
+    }
+}
+
+function volverCategorias() {
+    document.getElementById('categoriasSection').style.display = 'block';
+    document.getElementById('modelosSection').style.display = 'none';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+
+</body>
+</html>
