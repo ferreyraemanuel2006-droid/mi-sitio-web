@@ -3,156 +3,629 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Aurum.time - Relojes de Lujo</title>
-    <meta name="description" content="Catalogo exclusivo de relojes de lujo. Rolex, Patek Philippe, Omega. Envios a todo el pais.">
-    <meta name="keywords" content="relojes, rolex, patek philippe, omega, relojes de lujo, aurum time">
-    
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Aurum.time - Relojes de Lujo">
-    <meta property="og:description" content="Catalogo exclusivo de relojes premium. Envios a todo el pais.">
-    <meta property="og:image" content="https://i.imgur.com/KDyEewN.jpeg">
-    
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%E2%8C%9A%3C/text%3E%3C/svg%3E">
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700;900&display=swap" rel="stylesheet">
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); color: white; font-family: 'Montserrat', Arial, sans-serif; overflow-x: hidden; }
-        header { text-align: center; padding: 50px 20px 30px; position: relative; }
-        header::before { content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%); border-radius: 50%; z-index: 0; }
-        header h1 { font-size: 52px; letter-spacing: 4px; background: linear-gradient(135deg, #ffd700, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 900; position: relative; z-index: 1; }
+        body { background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); color: white; font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        
+        .menu-toggle { position: fixed; top: 20px; left: 20px; z-index: 2000; width: 50px; height: 50px; background: linear-gradient(135deg, #d4af37, #ffd700); border-radius: 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; cursor: pointer; transition: all 0.3s; box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4); }
+        .menu-toggle:hover { transform: scale(1.05); }
+        .menu-toggle span { width: 28px; height: 3px; background: #000; border-radius: 2px; transition: all 0.3s; }
+        .menu-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(8px, 8px); }
+        .menu-toggle.active span:nth-child(2) { opacity: 0; }
+        .menu-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(8px, -8px); }
+        
+        .sidebar { position: fixed; top: 0; left: -350px; width: 350px; height: 100vh; background: linear-gradient(180deg, #1a1a1a 0%, #0d0d0d 100%); z-index: 1999; transition: left 0.4s; box-shadow: 5px 0 25px rgba(0, 0, 0, 0.5); overflow-y: auto; padding-top: 80px; }
+        .sidebar.active { left: 0; }
+        .sidebar-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: rgba(0, 0, 0, 0.7); z-index: 1998; opacity: 0; visibility: hidden; transition: all 0.3s; }
+        .sidebar-overlay.active { opacity: 1; visibility: visible; }
+        
+        .menu-section { padding: 15px 25px; border-bottom: 1px solid #2a2a2a; }
+        .menu-brand { font-size: 20px; font-weight: 700; color: #d4af37; padding: 15px 10px; cursor: pointer; transition: all 0.3s; display: flex; justify-content: space-between; border-radius: 8px; }
+        .menu-brand:hover { background: rgba(212, 175, 55, 0.1); padding-left: 15px; }
+        .menu-brand .arrow { transition: transform 0.3s; }
+        .menu-brand.active .arrow { transform: rotate(180deg); }
+        
+        .submenu { max-height: 0; overflow: hidden; transition: max-height 0.4s; padding-left: 20px; }
+        .submenu.active { max-height: 300px; }
+        .submenu-item { padding: 12px 15px; color: #999; font-size: 15px; cursor: pointer; transition: all 0.3s; border-radius: 6px; margin: 5px 0; }
+        .submenu-item:hover { background: rgba(212, 175, 55, 0.15); color: #ffd700; padding-left: 20px; }
+        .submenu-item::before { content: '•'; color: #d4af37; margin-right: 10px; }
+        
+        header { text-align: center; padding: 80px 20px 30px; }
+        header h1 { font-size: 52px; letter-spacing: 4px; background: linear-gradient(135deg, #ffd700, #d4af37); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; }
         header p { color: #999; font-size: 16px; letter-spacing: 3px; margin-top: 10px; text-transform: uppercase; font-weight: 300; }
-        .beneficios { display: flex; justify-content: center; gap: 40px; flex-wrap: wrap; padding: 30px 20px; background: rgba(26, 26, 26, 0.5); border-top: 1px solid #222; border-bottom: 1px solid #222; }
-        .beneficio-item { font-size: 14px; color: #d4af37; font-weight: 600; letter-spacing: 1px; }
-        .categorias, .modelos { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; padding: 40px 20px; max-width: 1400px; margin: 0 auto; }
-        .card { background: linear-gradient(145deg, #151515, #0d0d0d); border: 1px solid #2a2a2a; padding: 25px; width: 280px; border-radius: 16px; text-align: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); position: relative; overflow: hidden; }
-        .card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent); transition: 0.5s; }
-        .card:hover::before { left: 100%; }
-        .card:hover { transform: translateY(-8px); border-color: #d4af37; box-shadow: 0 8px 35px rgba(212, 175, 55, 0.3); }
-        .card img { width: 100%; height: 280px; object-fit: cover; border-radius: 12px; border: 1px solid #2a2a2a; }
-        .card h3 { margin-top: 18px; color: #d4af37; font-size: 24px; font-weight: 700; letter-spacing: 1px; }
-        .precio { font-size: 20px; margin-top: 8px; color: #fff; font-weight: 600; }
-        .stock-badge { display: inline-block; background: rgba(37, 211, 102, 0.2); color: #25d366; padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: 600; margin-top: 8px; border: 1px solid rgba(37, 211, 102, 0.3); }
-        .btn-wsp { display: inline-block; margin-top: 15px; background: linear-gradient(135deg, #25d366, #128c7e); padding: 12px 24px; border-radius: 10px; text-decoration: none; color: white; font-weight: 700; font-size: 14px; letter-spacing: 0.5px; transition: all 0.3s; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+        
+        .carousel-container { position: relative; width: 100%; max-width: 1400px; margin: 40px auto; height: 600px; overflow: hidden; border-radius: 20px; }
+        .carousel-slide { position: absolute; width: 100%; height: 100%; opacity: 0; transition: opacity 1s ease-in-out; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .carousel-slide.active { opacity: 1; }
+        .carousel-slide::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7)); z-index: 1; }
+        
+        .slide-content { position: relative; z-index: 2; text-align: center; padding: 40px; }
+        .slide-content h2 { font-size: 64px; font-weight: 900; color: #ffd700; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 4px; text-shadow: 0 4px 20px rgba(0,0,0,0.8); }
+        .slide-content p { font-size: 24px; color: #fff; font-weight: 300; letter-spacing: 2px; }
+        
+        .carousel-bg { width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; }
+        
+        .carousel-arrow { position: absolute; top: 50%; transform: translateY(-50%); z-index: 3; width: 60px; height: 60px; background: rgba(212, 175, 55, 0.9); border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s; font-size: 28px; color: #000; font-weight: bold; }
+        .carousel-arrow:hover { background: #ffd700; transform: translateY(-50%) scale(1.1); }
+        .carousel-arrow.left { left: 30px; }
+        .carousel-arrow.right { right: 30px; }
+        
+        .carousel-indicators { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 3; display: flex; gap: 15px; }
+        .indicator { width: 12px; height: 12px; border-radius: 50%; background: rgba(255, 255, 255, 0.5); cursor: pointer; transition: all 0.3s; }
+        .indicator.active { background: #ffd700; transform: scale(1.3); }
+        
+        .destacados { max-width: 1400px; margin: 80px auto; padding: 0 20px; }
+        .destacados-title { text-align: center; font-size: 42px; font-weight: 700; color: #fff; margin-bottom: 20px; }
+        .destacados-subtitle { text-align: center; color: #999; font-size: 18px; margin-bottom: 50px; }
+        
+        .relojes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; }
+        
+        .reloj-card { background: linear-gradient(145deg, #151515, #0d0d0d); border: 1px solid #2a2a2a; border-radius: 20px; overflow: hidden; transition: all 0.4s; position: relative; }
+        .reloj-card:hover { transform: translateY(-10px); border-color: #d4af37; box-shadow: 0 10px 40px rgba(212, 175, 55, 0.3); }
+        
+        .reloj-card img { width: 100%; height: 350px; object-fit: cover; }
+        
+        .reloj-info { padding: 30px; }
+        .reloj-info h3 { font-size: 28px; color: #ffd700; margin-bottom: 15px; font-weight: 700; }
+        .reloj-categoria { display: inline-block; background: rgba(212, 175, 55, 0.2); color: #d4af37; padding: 6px 15px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 15px; text-transform: uppercase; letter-spacing: 1px; }
+        .reloj-descripcion { color: #ccc; line-height: 1.8; font-size: 15px; margin-bottom: 20px; }
+        .reloj-historia { color: #888; line-height: 1.7; font-size: 14px; font-style: italic; border-left: 3px solid #d4af37; padding-left: 15px; margin-top: 20px; }
+        .reloj-precio { font-size: 32px; color: #ffd700; font-weight: 700; margin: 15px 0; }
+        .reloj-fullset { display: inline-block; background: rgba(37, 211, 102, 0.2); color: #25d366; padding: 8px 16px; border-radius: 15px; font-size: 13px; font-weight: 600; margin-bottom: 15px; border: 1px solid rgba(37, 211, 102, 0.3); }
+        .reloj-marca-badge { display: inline-block; background: rgba(100, 100, 255, 0.2); color: #6b6bff; padding: 6px 12px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-left: 8px; }
+        
+        .btn-ver-mas { display: inline-block; margin-top: 20px; padding: 12px 30px; background: linear-gradient(135deg, #d4af37, #ffd700); color: #000; text-decoration: none; border-radius: 10px; font-weight: 700; transition: all 0.3s; }
+        .btn-ver-mas:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5); }
+        
+        .btn-wsp { display: inline-block; margin-top: 15px; background: linear-gradient(135deg, #25d366, #128c7e); padding: 12px 30px; border-radius: 10px; color: white; text-decoration: none; font-weight: 700; transition: all 0.3s; }
         .btn-wsp:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(37, 211, 102, 0.5); }
+        
+        .volver { display: inline-block; margin: 20px auto; padding: 12px 28px; border: 2px solid #d4af37; color: #d4af37; text-decoration: none; border-radius: 10px; font-weight: 600; transition: all 0.3s; cursor: pointer; }
+        .volver:hover { background: #d4af37; color: black; transform: translateX(-5px); }
+        
+        .seccion-home { display: block; }
+        .seccion-catalogo { display: none; }
+        
         .whatsapp-float { position: fixed; bottom: 25px; right: 25px; width: 65px; height: 65px; background: linear-gradient(135deg, #25d366, #128c7e); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 25px rgba(37, 211, 102, 0.5); z-index: 1000; cursor: pointer; transition: all 0.3s; text-decoration: none; animation: pulse 2s infinite; }
-        .whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 8px 35px rgba(37, 211, 102, 0.7); }
+        .whatsapp-float:hover { transform: scale(1.1); }
         .whatsapp-float svg { width: 35px; height: 35px; fill: white; }
         @keyframes pulse { 0%, 100% { box-shadow: 0 5px 25px rgba(37, 211, 102, 0.5); } 50% { box-shadow: 0 5px 35px rgba(37, 211, 102, 0.8); } }
-        footer { text-align: center; padding: 40px 20px; margin-top: 60px; background: #0a0a0a; color: #999; border-top: 1px solid #222; }
-        footer .logo-footer { font-size: 28px; background: linear-gradient(135deg, #ffd700, #d4af37); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 900; margin-bottom: 15px; }
-        footer a { color: #d4af37; text-decoration: none; transition: color 0.3s; }
+        
+        footer { text-align: center; padding: 40px 20px; margin-top: 80px; background: #0a0a0a; color: #999; border-top: 1px solid #222; }
+        footer .logo-footer { font-size: 28px; background: linear-gradient(135deg, #ffd700, #d4af37); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; font-weight: 900; margin-bottom: 15px; }
+        footer a { color: #d4af37; text-decoration: none; }
         footer a:hover { color: #ffd700; }
         footer p { margin: 8px 0; font-size: 14px; }
-        #modelosSection { display: none; }
-        .volver { display: block; margin: 20px auto; width: fit-content; padding: 12px 28px; border: 2px solid #d4af37; color: #d4af37; text-decoration: none; border-radius: 10px; font-weight: 600; transition: all 0.3s; cursor: pointer; }
-        .volver:hover { background: #d4af37; color: black; transform: translateX(-5px); }
-        .section-title { text-align: center; font-size: 36px; color: #fff; margin-bottom: 30px; font-weight: 700; }
-        @media (max-width: 768px) { header h1 { font-size: 38px; } .card { width: 100%; max-width: 340px; } .categorias, .modelos { gap: 20px; padding: 30px 15px; } .beneficios { gap: 20px; font-size: 12px; } .section-title { font-size: 28px; } .whatsapp-float { width: 55px; height: 55px; bottom: 20px; right: 20px; } .whatsapp-float svg { width: 28px; height: 28px; } }
-        @media (max-width: 480px) { header h1 { font-size: 32px; } header p { font-size: 13px; } .card { padding: 20px; } .card h3 { font-size: 20px; } .precio { font-size: 18px; } .beneficios { flex-direction: column; gap: 15px; } }
+        
+        @media (max-width: 768px) {
+            .carousel-container { height: 400px; }
+            .slide-content h2 { font-size: 42px; }
+            .slide-content p { font-size: 18px; }
+            .carousel-arrow { width: 45px; height: 45px; font-size: 20px; }
+            .carousel-arrow.left { left: 15px; }
+            .carousel-arrow.right { right: 15px; }
+            .relojes-grid { grid-template-columns: 1fr; }
+            header h1 { font-size: 38px; }
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>Aurum.time</h1>
-    <p>Catalogo Exclusivo de Relojes Premium</p>
-</header>
-
-<div class="beneficios">
-    <div class="beneficio-item">✓ Envios a Todo el Pais</div>
-    <div class="beneficio-item">✓ Garantia de Calidad</div>
-    <div class="beneficio-item">✓ Stock Disponible</div>
-    <div class="beneficio-item">✓ Atencion Personalizada</div>
+<div class="menu-toggle" onclick="toggleMenu()">
+    <span></span>
+    <span></span>
+    <span></span>
 </div>
 
-<section id="categoriasSection">
-    <h2 class="section-title">Nuestras Marcas</h2>
-    <div class="categorias">
-        <div class="card" onclick="mostrarModelos('rolex')">
-            <img src="https://i.imgur.com/KDyEewN.jpeg" alt="Relojes Rolex">
-            <h3>Rolex</h3>
-            <p style="color: #999; font-size: 14px; margin-top: 8px;">4 modelos disponibles</p>
+<div class="sidebar-overlay" onclick="toggleMenu()"></div>
+<div class="sidebar">
+    <div class="menu-section">
+        <div class="menu-brand" onclick="toggleSubmenu('rlx')">
+            <span>RLX</span>
+            <span class="arrow">▼</span>
         </div>
-        <div class="card" onclick="mostrarModelos('patek')">
-            <img src="https://i.imgur.com/bqnTTDS.jpeg" alt="Relojes Patek Philippe">
-            <h3>Patek Philippe</h3>
-            <p style="color: #999; font-size: 14px; margin-top: 8px;">2 modelos disponibles</p>
-        </div>
-        <div class="card" onclick="mostrarModelos('omega')">
-            <img src="https://i.imgur.com/cFB2wMI.jpeg" alt="Relojes Omega">
-            <h3>Omega</h3>
-            <p style="color: #999; font-size: 14px; margin-top: 8px;">1 modelo disponible</p>
+        <div class="submenu" id="submenu-rlx">
+            <div class="submenu-item" onclick="mostrarCatalogo('rolex', 'a')">Clase A</div>
+            <div class="submenu-item" onclick="mostrarCatalogo('rolex', 'aa')">Clase AA</div>
+            <div class="submenu-item" onclick="mostrarCatalogo('rolex', 'aaplus')">Clase AA+</div>
+            <div class="submenu-item" onclick="mostrarCatalogo('rolex', 'aaa')">Clase AAA</div>
+            <div class="submenu-item" onclick="mostrarCatalogo('rolex', 'super')">Super Clon</div>
         </div>
     </div>
-</section>
+    
+    <div class="menu-section">
+        <div class="menu-brand" onclick="toggleSubmenu('patek')">
+            <span>PATEK</span>
+            <span class="arrow">▼</span>
+        </div>
+        <div class="submenu" id="submenu-patek">
+            <div class="submenu-item" onclick="mostrarCatalogo('patek', 'a')">Clase A</div>
+            <div class="submenu-item" onclick="mostrarCatalogo('patek', 'aa')">Clase AA</div>
+            <div class="submenu-item" onclick="mostrarCatalogo('patek', 'aaa')">Clase AAA</div>
+            <div class="submenu-item" onclick="mostrarCatalogo('patek', 'super')">Super Clon</div>
+        </div>
+    </div>
+    
+    <div class="menu-section">
+        <div class="menu-brand" onclick="toggleSubmenu('omega')">
+            <span>OMEGA</span>
+            <span class="arrow">▼</span>
+        </div>
+        <div class="submenu" id="submenu-omega">
+            <div class="submenu-item" onclick="mostrarCatalogo('omega', 'a')">Clase A</div>
+            <div class="submenu-item" onclick="mostrarCatalogo('omega', 'aa')">Clase AA</div>
+            <div class="submenu-item" onclick="mostrarCatalogo('omega', 'aaa')">Clase AAA</div>
+            <div class="submenu-item" onclick="mostrarCatalogo('omega', 'super')">Super Clon</div>
+        </div>
+    </div>
+</div>
 
-<section id="modelosSection">
-    <a class="volver" onclick="volverCategorias()">← Volver a Marcas</a>
-    <h2 class="section-title" id="marcaTitle"></h2>
-    <div class="modelos" id="modelosContainer"></div>
-</section>
+<!-- SECCION HOME -->
+<div class="seccion-home" id="seccionHome">
+    <header>
+        <h1>Aurum.time</h1>
+        <p>Catalogo Exclusivo de Relojes Premium</p>
+    </header>
+
+    <div class="carousel-container">
+        <div class="carousel-slide active" onclick="mostrarPorCategoria('deportivo')">
+            <img class="carousel-bg" src="https://imgur.com/rV0Qo6m.jpeg" alt="Relojes Deportivos">
+            <div class="slide-content">
+                <h2>Relojes Deportivos</h2>
+                <p>Disenados para la aventura y el estilo activo</p>
+            </div>
+        </div>
+        
+        <div class="carousel-slide" onclick="mostrarPorCategoria('lujo')">
+            <img class="carousel-bg" src="https://imgur.com/lrSo6tW.jpeg" alt="Relojes de Lujo">
+            <div class="slide-content">
+                <h2>Relojes de Lujo</h2>
+                <p>Elegancia atemporal y sofisticacion</p>
+            </div>
+        </div>
+        
+        <div class="carousel-slide" onclick="mostrarPorCategoria('economico')">
+            <img class="carousel-bg" src="https://i.imgur.com/ixnEiF9.jpeg" alt="Relojes Economicos">
+            <div class="slide-content">
+                <h2>Relojes Economicos</h2>
+                <p>Calidad excepcional a precios accesibles</p>
+            </div>
+        </div>
+        
+        <button class="carousel-arrow left" onclick="event.stopPropagation(); cambiarSlide(-1)">‹</button>
+        <button class="carousel-arrow right" onclick="event.stopPropagation(); cambiarSlide(1)">›</button>
+        
+        <div class="carousel-indicators">
+            <div class="indicator active" onclick="irASlide(0)"></div>
+            <div class="indicator" onclick="irASlide(1)"></div>
+            <div class="indicator" onclick="irASlide(2)"></div>
+        </div>
+    </div>
+
+    <section class="destacados">
+        <h2 class="destacados-title">Modelos Destacados</h2>
+        <p class="destacados-subtitle">Descubre los relojes mas iconicos de nuestra coleccion</p>
+        
+        <div class="relojes-grid">
+            <div class="reloj-card">
+                <img src="https://imgur.com/xYev6FK.jpeg" alt="Submariner">
+                <div class="reloj-info">
+                    <span class="reloj-categoria">Deportivo</span>
+                    <h3>Submariner</h3>
+                    <p class="reloj-descripcion">
+                        El iconico reloj de buceo profesional. Resistente al agua hasta 300 metros, bisel giratorio unidireccional y diseno robusto.
+                    </p>
+                    <p class="reloj-historia">
+                        Historia: Lanzado en 1953, el Submariner fue el primer reloj de pulsera resistente al agua hasta 100 metros. Se convirtio en el reloj oficial de la Royal Navy britanica y fue usado por James Bond en las primeras peliculas de 007.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="reloj-card">
+                <img src="https://imgur.com/I3eqlnV.jpeg" alt="Date-Just">
+                <div class="reloj-info">
+                    <span class="reloj-categoria">Lujo</span>
+                    <h3>Date-Just</h3>
+                    <p class="reloj-descripcion">
+                        Elegancia clasica y refinada. Caja en acero y oro, esfera con ventana de fecha, bisel estriado caracteristico.
+                    </p>
+                    <p class="reloj-historia">
+                        Historia: Introducido en 1945 para celebrar el 40 aniversario de Rolex, fue el primer cronometro de pulsera automatico con fecha en la esfera.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="reloj-card">
+                <img src="https://imgur.com/eDxAJo2.jpeg" alt="Nautilus">
+                <div class="reloj-info">
+                    <span class="reloj-categoria">Deportivo Elegante</span>
+                    <h3>Nautilus</h3>
+                    <p class="reloj-descripcion">
+                        Diseno distintivo inspirado en los ojos de buey de los transatlanticos. Caja octogonal, brazalete integrado y acabados impecables.
+                    </p>
+                    <p class="reloj-historia">
+                        Historia: Disenado por Gerald Genta en 1976, revoluciono el concepto de reloj deportivo de lujo.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<!-- SECCION CATALOGO -->
+<div class="seccion-catalogo" id="seccionCatalogo">
+    <div style="text-align: center; margin: 40px 0;">
+        <a class="volver" onclick="volverHome()">← Volver al Inicio</a>
+    </div>
+    
+    <section class="destacados">
+        <h2 class="destacados-title" id="catalogoTitulo"></h2>
+        <p class="destacados-subtitle" id="catalogoSubtitulo"></p>
+        
+        <div class="relojes-grid" id="catalogoGrid"></div>
+    </section>
+</div>
 
 <footer>
     <div class="logo-footer">Aurum.time</div>
-    <p>© 2025 Aurum.time | Todos los derechos reservados</p>
+    <p>2025 Aurum.time | Todos los derechos reservados</p>
     <p>WhatsApp: <a href="https://wa.me/543816229294" target="_blank">+54 381 622-9294</a></p>
     <p>Siguenos en <a href="https://www.instagram.com/santyferreyra____" target="_blank">Instagram</a></p>
     <p style="font-size: 12px; color: #666; margin-top: 15px;">San Miguel de Tucuman, Argentina</p>
 </footer>
 
-<a href="https://wa.me/543816229294?text=Hola!%20Quiero%20consultar%20sobre%20los%20relojes%20de%20Aurum.time" class="whatsapp-float" target="_blank"><svg viewBox="0 0 32 32"><path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 7.933-2.127c2.42 1.37 5.173 2.127 8.067 2.127 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.467c-2.482 0-4.908-0.646-7.07-1.87l-0.507-0.292-4.713 1.262 1.262-4.669-0.292-0.508c-1.207-2.100-1.847-4.507-1.847-6.967 0-7.384 6.083-13.467 13.467-13.467s13.467 6.083 13.467 13.467c0 7.384-6.083 13.467-13.467 13.467zM21.641 18.842c-0.228-0.114-1.346-0.664-1.555-0.74-0.209-0.076-0.361-0.114-0.513 0.114s-0.589 0.74-0.722 0.893c-0.133 0.152-0.266 0.171-0.494 0.057s-0.963-0.355-1.833-1.131c-0.679-0.604-1.137-1.350-1.270-1.578s-0.014-0.351 0.100-0.464c0.102-0.102 0.228-0.266 0.342-0.399s0.152-0.228 0.228-0.380c0.076-0.152 0.038-0.285-0.019-0.399s-0.513-1.235-0.703-1.691c-0.185-0.443-0.373-0.383-0.513-0.390-0.133-0.007-0.285-0.007-0.437-0.007s-0.399 0.057-0.608 0.285c-0.209 0.228-0.797 0.778-0.797 1.898s0.816 2.201 0.930 2.353c0.114 0.152 1.606 2.547 3.981 3.505 1.925 0.778 2.354 0.622 2.780 0.584 0.627-0.057 1.346-0.55 1.536-1.080s0.190-0.987 0.133-1.080c-0.057-0.095-0.209-0.152-0.437-0.266z"/></svg></a>
+<a href="https://wa.me/543816229294?text=Hola!%20Quiero%20consultar%20sobre%20los%20relojes%20de%20Aurum.time" class="whatsapp-float" target="_blank">
+    <svg viewBox="0 0 32 32"><path d="M16 0c-8.837 0-16 7.163-16 16 0 2.825 0.737 5.607 2.137 8.048l-2.137 7.952 7.933-2.127c2.42 1.37 5.173 2.127 8.067 2.127 8.837 0 16-7.163 16-16s-7.163-16-16-16zM16 29.467c-2.482 0-4.908-0.646-7.07-1.87l-0.507-0.292-4.713 1.262 1.262-4.669-0.292-0.508c-1.207-2.100-1.847-4.507-1.847-6.967 0-7.384 6.083-13.467 13.467-13.467s13.467 6.083 13.467 13.467c0 7.384-6.083 13.467-13.467 13.467zM21.641 18.842c-0.228-0.114-1.346-0.664-1.555-0.74-0.209-0.076-0.361-0.114-0.513 0.114s-0.589 0.74-0.722 0.893c-0.133 0.152-0.266 0.171-0.494 0.057s-0.963-0.355-1.833-1.131c-0.679-0.604-1.137-1.350-1.270-1.578s-0.014-0.351 0.100-0.464c0.102-0.102 0.228-0.266 0.342-0.399s0.152-0.228 0.228-0.380c0.076-0.152 0.038-0.285-0.019-0.399s-0.513-1.235-0.703-1.691c-0.185-0.443-0.373-0.383-0.513-0.390-0.133-0.007-0.285-0.007-0.437-0.007s-0.399 0.057-0.608 0.285c-0.209 0.228-0.797 0.778-0.797 1.898s0.816 2.201 0.930 2.353c0.114 0.152 1.606 2.547 3.981 3.505 1.925 0.778 2.354 0.622 2.780 0.584 0.627-0.057 1.346-0.55 1.536-1.080s0.190-0.987 0.133-1.080c-0.057-0.095-0.209-0.152-0.437-0.266z"/></svg>
+</a>
 
 <script>
-var relojesDB = {
-    rolex: [
-        { nombre: 'Submariner', img: 'https://i.imgur.com/ixnEiF9.jpeg', precio: '37.000' },
-        { nombre: 'Date-Just', img: 'https://i.imgur.com/8BJzhzy.jpeg', precio: '35.000' },
-        { nombre: 'Milgauss', img: 'https://i.imgur.com/xLgPEx8.jpeg', precio: '33.000' },
-        { nombre: 'Royal Cushion', img: 'https://i.imgur.com/dCpxnhc.jpeg', precio: '35.000' }
-    ],
-    patek: [
-        { nombre: 'Nautilus', img: 'https://i.imgur.com/G1CS187.jpeg', precio: '37.000' },
-        { nombre: 'Aquanaut', img: 'https://i.imgur.com/2v4GhID.jpeg', precio: '37.000' }
-    ],
-    omega: [
-        { nombre: 'De-Ville', img: 'https://i.imgur.com/qQjeSlD.jpeg', precio: '30.000' }
-    ]
+// CLASIFICACION DE MODELOS POR CATEGORIA
+var categoriasModelos = {
+    deportivo: {
+        rolex: ['submariner', 'gmt master', 'sea-dweller', 'yacht-master', 'explorer', 'milgauss'],
+        patek: ['nautilus', 'aquanaut'],
+        omega: ['seamaster', 'speedmaster']
+    },
+    lujo: {
+        rolex: ['date-just', 'day-date', 'sky-dweller', 'oyster perpetual'],
+        patek: ['calatrava', 'cubitus'],
+        omega: ['de-ville', 'constellation']
+    },
+    tecnico: {
+        rolex: ['daytona', 'cosmograph', 'air king'],
+        patek: ['grand complications'],
+        omega: ['speedmaster']
+    }
 };
 
-var marcasNombres = { rolex: 'ROLEX', patek: 'PATEK PHILIPPE', omega: 'OMEGA' };
+// BASE DE DATOS DE RELOJES
+var relojesDB = {
+    rolex: {
+        a: [
+            { nombre: 'Date-Just Clase A', img: 'https://i.imgur.com/8BJzhzy.jpeg', precio: '$35.000', fullset: false, tipo: 'lujo' },
+            { nombre: 'Submariner Clase A', img: 'https://i.imgur.com/ixnEiF9.jpeg', precio: '$37.000', fullset: false, tipo: 'deportivo' },
+            { nombre: 'Milgauss Clase A', img: 'https://i.imgur.com/xLgPEx8.jpeg', precio: '$33.000', fullset: false, tipo: 'lujo' },
+            { nombre: 'Royal Cushion Clase A', img: 'https://i.imgur.com/pmVEbYC.jpeg', precio: '$35.000', fullset: false, tipo: 'lujo' }
+        ],
+        aa: [
+            { nombre: 'Date-Just Clase AA', img: 'https://imgur.com/5LrBCbW.jpeg', precio: 'USD $140', fullset: true, tipo: 'lujo' },
+            { nombre: 'Submariner Clase AA', img: 'https://imgur.com/kY6dEAY.jpeg', precio: 'USD $140', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Yach Master Clase AA', img: 'https://imgur.com/sDLHnQX.jpeg', precio: 'USD $140', fullset: true, tipo: 'lujo' }
+        ],
+        aaplus: [
+            { nombre: 'Date-Just Clase AA+', img: 'https://imgur.com/DPNiEFk.jpeg', precio: 'USD $220', fullset: true, tipo: 'lujo' },
+            { nombre: 'Sky-Dweller Clase AA+', img: 'https://imgur.com/IciHKGm.jpeg', precio: 'USD $220', fullset: true, tipo: 'lujo' },
+            { nombre: 'Day-Date Clase AA+', img: 'https://imgur.com/LUuTeOT.jpeg', precio: 'USD $220', fullset: true, tipo: 'lujo' },
+            { nombre: 'Daytona Clase AA+', img: 'https://imgur.com/fT8ZgfF.jpeg', precio: 'USD $220', fullset: true, tipo: 'lujo' },
+            { nombre: 'Oyster Perpetual Clase AA+', img: 'https://imgur.com/rCCA4kr.jpeg', precio: 'USD $220', fullset: true, tipo: 'lujo' }
+        ],
+        aaa: [
+            { nombre: 'Air King Clase AAA', img: 'https://imgur.com/TJenPf6.jpeg', precio: 'USD $430', fullset: true, tipo: 'tecnico' },
+            { nombre: 'Date-Just Clase AAA', img: 'https://i.imgur.com/RIZuvTN.jpeg', precio: 'USD $430', fullset: true, tipo: 'lujo' },
+            { nombre: 'Daytona Clase AAA', img: 'https://imgur.com/UKkAGul.jpeg', precio: 'USD $430', fullset: true, tipo: 'tecnico' },
+            { nombre: 'GMT Master II Clase AAA', img: 'https://imgur.com/osp6uaB.jpeg', precio: 'USD $430', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Explorer II Clase AAA', img: 'https://i.imgur.com/EI9debM.jpeg', precio: 'USD $430', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Milgauss Clase AAA', img: 'https://imgur.com/wsqofdF.jpeg', precio: 'USD $430', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Oyster Perpetual Clase AAA', img: 'https://i.imgur.com/hLmup8z.jpeg', precio: 'USD $430', fullset: true, tipo: 'lujo' },
+            { nombre: 'Day-Date Clase AAA', img: 'https://imgur.com/PBrdlqI.jpeg', precio: 'USD $430', fullset: true, tipo: 'lujo' },
+            { nombre: 'Sky-Dweller Clase AAA', img: 'https://imgur.com/So7c4ct.jpeg', precio: 'USD $430', fullset: true, tipo: 'lujo' },
+            { nombre: 'Sea-Dweller Clase AAA', img: 'https://imgur.com/CKejrOu.jpeg', precio: 'USD $430', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Submariner Clase AAA', img: 'https://i.imgur.com/jvP6h1o.jpeg', precio: 'USD $430', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Yacht-Master Clase AAA', img: 'https://imgur.com/l1OzxoS.jpeg', precio: 'USD $430', fullset: true, tipo: 'deportivo' }
+        ],
+        super: [
+            { nombre: 'Date-Just Super Clon', img: 'https://i.imgur.com/I3eqlnV.jpeg', precio: 'USD $1,580', fullset: true, tipo: 'lujo' },
+            { nombre: 'Submariner Super Clon', img: 'https://imgur.com/vVTpcEh.jpeg', precio: 'USD $1,580', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Yacht-Master Super Clon', img: 'https://i.imgur.com/JL8rsPl.jpeg', precio: 'USD $1,580', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Cosmograph Super Clon', img: 'https://i.imgur.com/8L2izAO.jpeg', precio: 'USD $1,580', fullset: true, tipo: 'tecnico' },
+            { nombre: 'Oyster Perpetual Super Clon', img: 'https://i.imgur.com/fi0aSVN.jpeg', precio: 'USD $1,580', fullset: true, tipo: 'lujo' },
+            { nombre: 'Day-Date Super Clon', img: 'https://i.imgur.com/Mwk4qdo.jpeg', precio: 'USD $1,580', fullset: true, tipo: 'lujo' },
+            { nombre: 'Explorer II Super Clon', img: 'https://i.imgur.com/oouckxO.jpeg', precio: 'USD $1,580', fullset: true, tipo: 'deportivo' },
+            { nombre: 'GMT Master II Super Clon', img: 'https://i.imgur.com/N6eXKBc.jpeg', precio: 'USD $1,580', fullset: true, tipo: 'deportivo' }
+        ]
+    },
+    patek: {
+        a: [
+            { nombre: 'Aquanaut Clase A', img: 'https://imgur.com/t2yGnwU.jpeg', precio: '$37.000', fullset: false, tipo: 'deportivo' },
+            { nombre: 'Nautilus Clase A', img: 'https://imgur.com/3MCrDWv.jpeg', precio: '$37.000', fullset: false, tipo: 'deportivo' }
+        ],
+        aa: [
+            { nombre: 'Aquanaut Clase AA', img: 'https://imgur.com/vR0eZgu.jpeg', precio: 'USD $140', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Nautilus Clase AA', img: 'https://imgur.com/AcgQPiW.jpeg', precio: 'USD $140', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Grand Complications Clase AA', img: 'https://imgur.com/hQqCraS.jpeg', precio: 'USD $140', fullset: true, tipo: 'tecnico' }
+        ],
+        aaa: [
+            { nombre: 'Aquanaut Clase AAA', img: 'https://imgur.com/7fuVwYp.jpeg', precio: 'USD $430', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Nautilus Clase AAA', img: 'https://imgur.com/fLdPsd9.jpeg', precio: 'USD $430', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Cubitus Clase AAA', img: 'https://imgur.com/uiSEeq0.jpeg', precio: 'USD $430', fullset: true, tipo: 'lujo' },
+            { nombre: 'Grand Complications Clase AAA', img: 'https://imgur.com/3zAf5q9.jpeg', precio: 'USD $430', fullset: true, tipo: 'tecnico' }
+        ],
+        super: [
+            { nombre: 'Aquanaut Super Clon', img: 'https://imgur.com/CarPfRB.jpeg', precio: 'USD $1,580', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Nautilus Super Clon', img: 'https://imgur.com/AeS6VIF.jpeg', precio: 'USD $1,580', fullset: true, tipo: 'deportivo' }
+        ]
+    },
+    omega: {
+        a: [
+            { nombre: 'De-Ville Clase A', img: 'https://imgur.com/jIiWY6B.jpeg', precio: '$30.000', fullset: false, tipo: 'lujo' }
+        ],
+        aa: [
+            { nombre: 'Seamaster Clase AA', img: 'https://imgur.com/mQjtTNV.jpeg', precio: 'USD $140', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Speedmaster Clase AA', img: 'https://imgur.com/3RRmIrw.jpeg', precio: 'USD $140', fullset: true, tipo: 'tecnico' }
+        ],
+        aaa: [
+            { nombre: 'Seamaster Clase AAA', img: 'https://imgur.com/v4HOgcy.jpeg', precio: 'USD $430', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Speedmaster Clase AAA', img: 'https://imgur.com/Y6xx834.jpeg', precio: 'USD $430', fullset: true, tipo: 'tecnico' },
+            { nombre: 'De-Ville Clase AAA', img: 'https://imgur.com/Qs3CCQw.jpeg', precio: 'USD $430', fullset: true, tipo: 'lujo' }
+        ],
+        super: [
+            { nombre: 'Seamaster Super Clon', img: 'https://imgur.com/OUh8Jsy.jpeg', precio: 'USD $1,580', fullset: true, tipo: 'deportivo' },
+            { nombre: 'Speedmaster Super Clon', img: 'https://imgur.com/UjZ6IyJ .jpeg', precio: 'USD $1,580', fullset: true, tipo: 'tecnico' }
+        ]
+    }
+};
 
-function mostrarModelos(marca) {
-    document.getElementById('categoriasSection').style.display = 'none';
-    document.getElementById('modelosSection').style.display = 'block';
-    document.getElementById('marcaTitle').textContent = marcasNombres[marca];
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+// Variables globales
+var slideActual = 0;
+var intervaloCarrusel;
+
+// Funciones del carrusel
+function iniciarCarrusel() {
+    intervaloCarrusel = setInterval(function() {
+        cambiarSlide(1);
+    }, 7000);
+}
+
+function cambiarSlide(direccion) {
+    var slides = document.querySelectorAll('.carousel-slide');
+    var indicators = document.querySelectorAll('.indicator');
     
-    var contenedor = document.getElementById('modelosContainer');
-    contenedor.innerHTML = '';
-    var relojes = relojesDB[marca] || [];
+    slides[slideActual].classList.remove('active');
+    indicators[slideActual].classList.remove('active');
+    
+    slideActual += direccion;
+    
+    if (slideActual >= slides.length) {
+        slideActual = 0;
+    } else if (slideActual < 0) {
+        slideActual = slides.length - 1;
+    }
+    
+    slides[slideActual].classList.add('active');
+    indicators[slideActual].classList.add('active');
+    
+    clearInterval(intervaloCarrusel);
+    iniciarCarrusel();
+}
+
+function irASlide(index) {
+    var slides = document.querySelectorAll('.carousel-slide');
+    var indicators = document.querySelectorAll('.indicator');
+    
+    slides[slideActual].classList.remove('active');
+    indicators[slideActual].classList.remove('active');
+    
+    slideActual = index;
+    
+    slides[slideActual].classList.add('active');
+    indicators[slideActual].classList.add('active');
+    
+    clearInterval(intervaloCarrusel);
+    iniciarCarrusel();
+}
+
+// Funciones del menú
+function toggleMenu() {
+    document.querySelector('.menu-toggle').classList.toggle('active');
+    document.querySelector('.sidebar').classList.toggle('active');
+    document.querySelector('.sidebar-overlay').classList.toggle('active');
+}
+
+function toggleSubmenu(marca) {
+    var submenu = document.getElementById('submenu-' + marca);
+    var menuBrand = submenu.previousElementSibling;
+    
+    var allSubmenus = document.querySelectorAll('.submenu');
+    for (var i = 0; i < allSubmenus.length; i++) {
+        if (allSubmenus[i] !== submenu) {
+            allSubmenus[i].classList.remove('active');
+        }
+    }
+    
+    var allBrands = document.querySelectorAll('.menu-brand');
+    for (var j = 0; j < allBrands.length; j++) {
+        if (allBrands[j] !== menuBrand) {
+            allBrands[j].classList.remove('active');
+        }
+    }
+    
+    submenu.classList.toggle('active');
+    menuBrand.classList.toggle('active');
+}
+
+// Función para determinar el tipo de un reloj por su nombre
+function obtenerTipoReloj(nombreReloj) {
+    var nombreLower = nombreReloj.toLowerCase();
+    
+    // Deportivos
+    if (nombreLower.includes('submariner') || nombreLower.includes('gmt master') || 
+        nombreLower.includes('sea-dweller') || nombreLower.includes('yacht-master') || 
+        nombreLower.includes('explorer') || nombreLower.includes('milgauss') ||
+        nombreLower.includes('nautilus') || nombreLower.includes('aquanaut') ||
+        nombreLower.includes('seamaster')) {
+        return 'deportivo';
+    }
+    
+    // Técnicos
+    if (nombreLower.includes('daytona') || nombreLower.includes('cosmograph') || 
+        nombreLower.includes('air king') || nombreLower.includes('speedmaster') ||
+        nombreLower.includes('grand complications')) {
+        return 'tecnico';
+    }
+    
+    // Lujo (default)
+    return 'lujo';
+}
+
+// Función para mostrar catálogo por categoría (deportivo, lujo, económico)
+function mostrarPorCategoria(categoria) {
+    document.getElementById('seccionHome').style.display = 'none';
+    document.getElementById('seccionCatalogo').style.display = 'block';
+    
+    var categoriaNombre = categoria === 'deportivo' ? 'Deportivos' : 
+                         categoria === 'lujo' ? 'de Lujo' : 'Económicos';
+    
+    document.getElementById('catalogoTitulo').textContent = 'Relojes ' + categoriaNombre;
+    document.getElementById('catalogoSubtitulo').textContent = categoria === 'economico' ? 
+        'Todos nuestros relojes Clase A - Calidad excepcional a precios accesibles' :
+        'Toda nuestra colección de relojes ' + categoriaNombre.toLowerCase();
+    
+    var grid = document.getElementById('catalogoGrid');
+    grid.innerHTML = '';
+    
+    // Si es categoría económico, mostrar solo Clase A
+    if (categoria === 'economico') {
+        var marcas = ['rolex', 'patek', 'omega'];
+        
+        for (var m = 0; m < marcas.length; m++) {
+            var marca = marcas[m];
+            
+            if (relojesDB[marca]['a']) {
+                var relojes = relojesDB[marca]['a'];
+                
+                for (var i = 0; i < relojes.length; i++) {
+                    var reloj = relojes[i];
+                    var marcaNombre = marca === 'rolex' ? 'RLX' : marca === 'patek' ? 'PATEK' : 'OMEGA';
+                    var fullsetHTML = reloj.fullset ? '<span class="reloj-fullset">✓ Full Set Incluido</span>' : '';
+                    
+                    var cardHTML = '<div class="reloj-card">' +
+                        '<img src="' + reloj.img + '" alt="' + reloj.nombre + '">' +
+                        '<div class="reloj-info">' +
+                            '<h3>' + reloj.nombre + '<span class="reloj-marca-badge">' + marcaNombre + '</span></h3>' +
+                            fullsetHTML +
+                            '<div class="reloj-precio">' + reloj.precio + '</div>' +
+                            '<a href="https://wa.me/543816229294?text=Hola!%20Me%20interesa%20el%20' + encodeURIComponent(reloj.nombre) + '" class="btn-wsp" target="_blank">Consultar por WhatsApp</a>' +
+                        '</div>' +
+                    '</div>';
+                    
+                    grid.innerHTML += cardHTML;
+                }
+            }
+        }
+    } else {
+        // Lógica original para deportivo y lujo
+        var marcas = ['rolex', 'patek', 'omega'];
+        var clases = ['a', 'aa', 'aaplus', 'aaa', 'super'];
+        
+        for (var c = 0; c < clases.length; c++) {
+            var clase = clases[c];
+            
+            for (var m = 0; m < marcas.length; m++) {
+                var marca = marcas[m];
+                
+                if (relojesDB[marca][clase]) {
+                    var relojes = relojesDB[marca][clase];
+                    
+                    for (var i = 0; i < relojes.length; i++) {
+                        var reloj = relojes[i];
+                        
+                        if (reloj.tipo === categoria) {
+                            var marcaNombre = marca === 'rolex' ? 'RLX' : marca === 'patek' ? 'PATEK' : 'OMEGA';
+                            var fullsetHTML = reloj.fullset ? '<span class="reloj-fullset">✓ Full Set Incluido</span>' : '';
+                            
+                            var cardHTML = '<div class="reloj-card">' +
+                                '<img src="' + reloj.img + '" alt="' + reloj.nombre + '">' +
+                                '<div class="reloj-info">' +
+                                    '<h3>' + reloj.nombre + '<span class="reloj-marca-badge">' + marcaNombre + '</span></h3>' +
+                                    fullsetHTML +
+                                    '<div class="reloj-precio">' + reloj.precio + '</div>' +
+                                    '<a href="https://wa.me/543816229294?text=Hola!%20Me%20interesa%20el%20' + encodeURIComponent(reloj.nombre) + '" class="btn-wsp" target="_blank">Consultar por WhatsApp</a>' +
+                                '</div>' +
+                            '</div>';
+                            
+                            grid.innerHTML += cardHTML;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    window.scrollTo(0, 0);
+}
+
+// Función para mostrar catálogo por marca y clase
+function mostrarCatalogo(marca, clase) {
+    document.getElementById('seccionHome').style.display = 'none';
+    document.getElementById('seccionCatalogo').style.display = 'block';
+    
+    toggleMenu();
+    
+    var relojes = relojesDB[marca][clase];
+    
+    var marcaNombre = marca === 'rolex' ? 'RLX' : marca === 'patek' ? 'PATEK' : 'OMEGA';
+    var claseNombre = clase === 'a' ? 'Clase A' : clase === 'aa' ? 'Clase AA' : 
+                      clase === 'aaplus' ? 'Clase AA+' : clase === 'aaa' ? 'Clase AAA' : 'Super Clon';
+    
+    document.getElementById('catalogoTitulo').textContent = marcaNombre + ' - ' + claseNombre;
+    document.getElementById('catalogoSubtitulo').textContent = 'Colección completa de relojes ' + claseNombre;
+    
+    var grid = document.getElementById('catalogoGrid');
+    grid.innerHTML = '';
     
     for (var i = 0; i < relojes.length; i++) {
-        var r = relojes[i];
-        var mensaje = 'Hola! Estoy interesado en el ' + r.nombre + ' de ' + marcasNombres[marca] + ' ($' + r.precio + '). Esta disponible?';
-        var url = 'https://wa.me/543816229294?text=' + encodeURIComponent(mensaje);
+        var reloj = relojes[i];
+        var fullsetHTML = reloj.fullset ? '<span class="reloj-fullset">✓ Full Set Incluido</span>' : '';
         
-        var card = document.createElement('div');
-        card.className = 'card';
-        card.innerHTML = '<img src="' + r.img + '" alt="' + r.nombre + '"><h3>' + r.nombre + '</h3><p class="precio">$' + r.precio + '</p><span class="stock-badge">✓ Stock Disponible</span><a class="btn-wsp" href="' + url + '" target="_blank">Consultar por WhatsApp</a>';
-        contenedor.appendChild(card);
+        var cardHTML = '<div class="reloj-card">' +
+            '<img src="' + reloj.img + '" alt="' + reloj.nombre + '">' +
+            '<div class="reloj-info">' +
+                '<h3>' + reloj.nombre + '</h3>' +
+                fullsetHTML +
+                '<div class="reloj-precio">' + reloj.precio + '</div>' +
+                '<a href="https://wa.me/543816229294?text=Hola!%20Me%20interesa%20el%20' + encodeURIComponent(reloj.nombre) + '" class="btn-wsp" target="_blank">Consultar por WhatsApp</a>' +
+            '</div>' +
+        '</div>';
+        
+        grid.innerHTML += cardHTML;
     }
+    
+    window.scrollTo(0, 0);
 }
 
-function volverCategorias() {
-    document.getElementById('categoriasSection').style.display = 'block';
-    document.getElementById('modelosSection').style.display = 'none';
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+// Función para volver al home
+function volverHome() {
+    document.getElementById('seccionHome').style.display = 'block';
+    document.getElementById('seccionCatalogo').style.display = 'none';
+    window.scrollTo(0, 0);
 }
+
+// Iniciar carrusel al cargar
+iniciarCarrusel();
 </script>
 
 </body>
